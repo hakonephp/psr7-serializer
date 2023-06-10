@@ -1,5 +1,9 @@
 # PSR-7 Serializer 🏃‍♀️
 
+[![Package version](http://img.shields.io/packagist/v/hakone/psr7-serializer.svg?style=flat)](https://packagist.org/packages/hakone/psr7-serializer)
+[![Build Status](https://github.com/hakonephp/psr7-serializer/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/hakonephp/psr7-serializer/actions)
+[![Downloads this Month](https://img.shields.io/packagist/dm/hakone/psr7-serializer.svg)](https://packagist.org/packages/hakone/psr7-serializer)
+
 This package provides functionality to persist [PSR-7] HTTP Responses based on and [PSR-17].
 
 This package is designed to serialize within the PSR-7 standard. The data does not have the pre-serialized class name, so the restored class depends only on the PSR-17 Factory object passed to `unserializePsr7()`.
@@ -16,7 +20,7 @@ composer require hakone/psr7-serializer php-http/discovery
 
 [HTTPlug Discovery (`php-http/discovery`)][php-http/discovery] is a package useful for auto-discovering classes provided by installed HTTP libraries.
 
-If you haven't installed any HTTP factory implementations yet: consider installing one of [`nyholm/psr7`][nyholm/psr7], [`guzzlehttp/psr7`][guzzlehttp/psr7], or [`laminas/laminas-diactoros`][laminas/laminas-diactoros].
+If you do not already have HTTP factory implementations installed: consider adding one of [`nyholm/psr7`][nyholm/psr7], [`guzzlehttp/psr7`][guzzlehttp/psr7], or [`laminas/laminas-diactoros`][laminas/laminas-diactoros] to your project.
 
 ## Usage
 
