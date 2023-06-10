@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Function Hakone\\\\Psr7Serializer\\\\serializePsr7\\(\\) should return non\\-empty\\-string but returns string\\.$#"
+			count: 1
+			path: src/functions.php
