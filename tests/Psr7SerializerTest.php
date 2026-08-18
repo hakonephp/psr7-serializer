@@ -7,6 +7,7 @@ namespace Hakone\Psr7Serializer;
 use Http\Discovery\Psr17FactoryDiscovery;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -21,6 +22,8 @@ use function unserialize;
  */
 #[CoversMethod(Psr7Serializer::class, 'serializeResponse')]
 #[CoversMethod(Psr7Serializer::class, 'serializeStream')]
+#[UsesClass(SerializableResponse::class)]
+#[UsesClass(SerializableStream::class)]
 class Psr7SerializerTest extends TestCase
 {
     /** @var Psr7Serializer */
