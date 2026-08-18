@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace Hakone\Psr7Serializer;
 
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
+#[CoversClass(SerializableResponse::class)]
 class SerializableResponseTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @covers SerializableStream
-     */
     public function test(): void
     {
         $subject = new SerializableResponse(

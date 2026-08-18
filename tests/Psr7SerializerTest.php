@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Hakone\Psr7Serializer;
 
 use Http\Discovery\Psr17FactoryDiscovery;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -18,6 +20,8 @@ use function unserialize;
  * @phpstan-import-type serialized_response_array from SerializableResponse
  * @phpstan-import-type serialized_stream_array from SerializableStream
  */
+#[CoversMethod(Psr7Serializer::class, 'serializeResponse')]
+#[CoversMethod(Psr7Serializer::class, 'serializeStream')]
 class Psr7SerializerTest extends TestCase
 {
     /** @var Psr7Serializer */
@@ -29,10 +33,9 @@ class Psr7SerializerTest extends TestCase
     }
 
     /**
-     * @covers Psr7Serializer::serializeResponse()
-     * @dataProvider responseProvider
      * @phpstan-param serialized_response_array $expected
      */
+    #[DataProvider('responseProvider')]
     public function test_serializeResponse(ResponseInterface $response, array $expected): void
     {
         $actual = $this->subject->serializeResponse($response);
@@ -47,10 +50,9 @@ class Psr7SerializerTest extends TestCase
     }
 
     /**
-     * @covers Psr7Serializer::serializeStream()
-     * @dataProvider streamProvider
      * @phpstan-param ?serialized_response_array $expected
      */
+    #[DataProvider('streamProvider')]
     public function test_serializeStream(StreamInterface $response, bool $emptyAsNull, ?array $expected): void
     {
         $actual = $this->subject->serializeStream($response, $emptyAsNull);
@@ -134,44 +136,45 @@ class Psr7SerializerTest extends TestCase
         $streamFactory = Psr17FactoryDiscovery::findStreamFactory();
 
         yield [
-            $streamFactory->createStream(''),
+            'response' => $streamFactory->createStream(''),
             'emptyAsNull' => true,
-            null,
+            'expected' => null,
         ];
 
         yield [
-            $streamFactory->createStream(''),
+            'response' => $streamFactory->createStream(''),
             'emptyAsNull' => false,
-            [
+            'expected' => [
                 'contents' => '',
             ],
         ];
 
-        $gif = fopen('data://image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==', 'r');
-        assert($gif !== false);
         $gif_bin = base64_decode('R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
 
         foreach ([true, false] as $emptyAsNull) {
             yield [
-                $streamFactory->createStream("\0"),
+                'response' => $streamFactory->createStream("\0"),
                 'emptyAsNull' => $emptyAsNull,
-                [
+                'expected' => [
                     'contents' => "\0",
                 ],
             ];
 
             yield [
-                $streamFactory->createStream('<html></html>'),
+                'response' => $streamFactory->createStream('<html></html>'),
                 'emptyAsNull' => $emptyAsNull,
-                [
+                'expected' => [
                     'contents' => '<html></html>',
                 ],
             ];
 
+            $gif = fopen('data://image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==', 'r');
+            assert($gif !== false);
+
             yield [
-                $streamFactory->createStreamFromResource($gif),
+                'response' => $streamFactory->createStreamFromResource($gif),
                 'emptyAsNull' => $emptyAsNull,
-                [
+                'expected' => [
                     'contents' => $gif_bin,
                 ],
             ];
