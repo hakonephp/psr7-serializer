@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use function strlen;
 
-class Psr7Serializer
+readonly class Psr7Serializer
 {
     public function serializeResponse(ResponseInterface $response): SerializableResponse
     {

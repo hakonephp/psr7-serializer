@@ -17,7 +17,7 @@ use Psr\Http\Message\StreamFactoryInterface;
  *     reasonPhrase: string
  * }
  */
-class SerializableResponse
+readonly class SerializableResponse
 {
     /**
      * @param array<array<string>> $headers

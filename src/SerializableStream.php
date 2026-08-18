@@ -12,7 +12,7 @@ use Psr\Http\Message\StreamInterface;
  *     contents: string
  * }
  */
-class SerializableStream
+readonly class SerializableStream
 {
     public function __construct(
         private string $contents
