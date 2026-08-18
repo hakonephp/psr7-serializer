@@ -73,6 +73,17 @@ class Psr7SerializerTest extends TestCase
         }
     }
 
+    public function test_serializeStream_defaults_to_keeping_empty_contents(): void
+    {
+        $stream = Psr17FactoryDiscovery::findStreamFactory()->createStream('');
+
+        $actual = $this->subject->serializeStream($stream);
+
+        self::assertEquals([
+            'contents' => '',
+        ], $actual->__serialize());
+    }
+
     /**
      * @return iterable<array{ResponseInterface, serialized_response_array}>
      */
