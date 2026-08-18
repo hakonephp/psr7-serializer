@@ -3,31 +3,85 @@ name: test
 on:
   push:
     paths-ignore:
-    - '**/*.md'
+      - '**/*.md'
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
 
 jobs:
-  run:
-    runs-on: ${{ matrix.operating-system }}
+  phpunit:
+    name: PHPUnit PHP ${{ matrix.php }} (${{ matrix.dependencies }})
+    if: hashFiles('phpunit.xml', 'phpunit.xml.dist') != ''
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: ['7.3', '7.4', '8.0', '8.1', '8.2']
-    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+        php:
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
+        dependencies:
+          - highest
+          - lowest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ matrix.php-versions }}
-        tools: composer
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer
 
-    - name: Setup Composer
-      run: 'composer install'
+      - name: Install highest dependencies
+        if: matrix.dependencies == 'highest'
+        run: composer update --no-interaction --no-progress
 
-    - name: Run tests
-      run: './vendor/bin/phpunit'
+      - name: Install lowest dependencies
+        if: matrix.dependencies == 'lowest'
+        run: composer update --prefer-lowest --no-interaction --no-progress
 
-    - name: Run static analysis
-      run: './vendor/bin/phpstan'
+      - name: Run tests
+        run: ./vendor/bin/phpunit
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies
+        run: composer update --no-interaction --no-progress
+
+      - name: Run PHPStan
+        run: ./vendor/bin/phpstan
+
+  ecs:
+    name: ECS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies
+        run: composer update --no-interaction --no-progress
+
+      - name: Run ECS
+        run: ./vendor/bin/ecs check
