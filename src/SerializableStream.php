@@ -14,12 +14,9 @@ use Psr\Http\Message\StreamInterface;
  */
 class SerializableStream
 {
-    /** @var string */
-    private $contents;
-
-    public function __construct(string $contents)
-    {
-        $this->contents = $contents;
+    public function __construct(
+        private string $contents
+    ) {
     }
 
     /**

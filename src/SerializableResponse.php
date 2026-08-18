@@ -19,36 +19,16 @@ use Psr\Http\Message\StreamFactoryInterface;
  */
 class SerializableResponse
 {
-    /** @var string */
-    private $version;
-
-    /** @var array<array<string>> */
-    private $headers;
-
-    /** @var ?SerializableStream */
-    private $body;
-
-    /** @var int */
-    private $code;
-
-    /** @var string */
-    private $reasonPhrase;
-
     /**
      * @param array<array<string>> $headers
      */
     public function __construct(
-        string $version,
-        array $headers,
-        ?SerializableStream $body,
-        int $code,
-        string $reasonPhrase
+        private string $version,
+        private array $headers,
+        private ?SerializableStream $body,
+        private int $code,
+        private string $reasonPhrase
     ) {
-        $this->version = $version;
-        $this->headers = $headers;
-        $this->body = $body;
-        $this->code = $code;
-        $this->reasonPhrase = $reasonPhrase;
     }
 
     /**
