@@ -39,13 +39,13 @@ class Psr7SerializerTest extends TestCase
     {
         $actual = $this->subject->serializeResponse($response);
 
-        $this->assertEquals($expected, $actual->__serialize());
+        self::assertEquals($expected, $actual->__serialize());
 
         $serialized = serialize($actual);
         $unserialized = unserialize($serialized);
 
-        $this->assertInstanceof(SerializableResponse::class, $unserialized);
-        $this->assertEquals($expected, $unserialized->__serialize());
+        self::assertInstanceOf(SerializableResponse::class, $unserialized);
+        self::assertEquals($expected, $unserialized->__serialize());
     }
 
     /**
@@ -57,16 +57,16 @@ class Psr7SerializerTest extends TestCase
         $actual = $this->subject->serializeStream($response, $emptyAsNull);
 
         if ($expected === null) {
-            $this->assertNull($actual);
+            self::assertNull($actual);
         } else {
-            $this->assertNotNull($actual);
-            $this->assertEquals($expected, $actual->__serialize());
+            self::assertNotNull($actual);
+            self::assertEquals($expected, $actual->__serialize());
 
             $serialized = serialize($actual);
             $unserialized = unserialize($serialized);
 
-            $this->assertInstanceOf(SerializableStream::class, $unserialized);
-            $this->assertEquals($expected, $unserialized->__serialize());
+            self::assertInstanceOf(SerializableStream::class, $unserialized);
+            self::assertEquals($expected, $unserialized->__serialize());
         }
     }
 
@@ -130,7 +130,7 @@ class Psr7SerializerTest extends TestCase
     }
 
     /**
-     * @return iterable<array{0: StreamInterface, emptyAsNull: bool, 1: ?serialized_stream_array}>
+     * @return iterable<array{response: StreamInterface, emptyAsNull: bool, expected: ?serialized_stream_array}>
      */
     public static function streamProvider(): iterable
     {

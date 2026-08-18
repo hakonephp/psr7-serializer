@@ -48,7 +48,6 @@ function serializePsr7(object $object): string
 }
 
 /**
- * @param ResponseInterface|StreamInterface $object
  * @phpstan-return (
  *     $object is ResponseInterface ? SerializableResponse :
  *     $object is StreamInterface ? SerializableStream : never

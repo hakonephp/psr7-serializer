@@ -38,7 +38,7 @@ class SerializableResponseTest extends TestCase
             'reasonPhrase' => 'Incomprehensible',
         ];
 
-        $this->assertEquals($expected, $subject->__serialize());
+        self::assertEquals($expected, $subject->__serialize());
 
         $stream = Psr17FactoryDiscovery::findStreamFactory()->createStream('Foobar');
         $streamFactory = $this->prophesize(StreamFactoryInterface::class);
@@ -56,6 +56,6 @@ class SerializableResponseTest extends TestCase
 
         $actual = $subject->toResponse($responseFactory->reveal(), $streamFactory->reveal());
 
-        $this->assertEquals($expected_response, $actual);
+        self::assertEquals($expected_response, $actual);
     }
 }

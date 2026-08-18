@@ -19,7 +19,7 @@ class SerializableStreamTest extends TestCase
     {
         $subject = new SerializableStream('Foobar');
 
-        $this->assertEquals([
+        self::assertEquals([
             'contents' => 'Foobar',
         ], $subject->__serialize());
 
@@ -29,6 +29,6 @@ class SerializableStreamTest extends TestCase
         $streamFactory->createStream('Foobar')
             ->willReturn($stream);
 
-        $this->assertEquals('Foobar', (string)$subject->toStream($streamFactory->reveal()));
+        self::assertEquals('Foobar', (string)$subject->toStream($streamFactory->reveal()));
     }
 }
