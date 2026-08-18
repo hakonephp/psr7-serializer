@@ -2,41 +2,43 @@
 
 declare(strict_types=1);
 
+use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
+use PhpCsFixer\Fixer\Import\GlobalNamespaceImportFixer;
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
+use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
+use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocLineSpanFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
-use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
-use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
-use PhpCsFixer\Fixer\Operator\NotOperatorWithSuccessorSpaceFixer;
 
-return function (ECSConfig $ecsConfig): void {
-    $ecsConfig->paths([
+return ECSConfig::configure()
+    ->withPaths([
         __DIR__ . '/src',
         __DIR__ . '/tests',
-    ]);
-
-    // this way you add a single rule
-    $ecsConfig->rules([
+    ])
+    ->withRules([
         NoUnusedImportsFixer::class,
-    ]);
-
-    // this way you can add sets - group of rules
-    $ecsConfig->sets([
-        // run and fix, one by one
-        SetList::SPACES,
-        SetList::ARRAY,
-        SetList::DOCBLOCK,
-        SetList::NAMESPACES,
-        SetList::COMMENTS,
-        SetList::PSR_12,
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(CastSpacesFixer::class, [
+    ])
+    ->withPreparedSets(
+        spaces: true,
+        arrays: true,
+        docblocks: true,
+        namespaces: true,
+        comments: true,
+        psr12: true,
+    )
+    ->withConfiguredRule(CastSpacesFixer::class, [
         'space' => 'none',
-    ]);
-
-    $ecsConfig->skip([
+    ])
+    ->withConfiguredRule(OrderedImportsFixer::class, [
+        'imports_order' => ['class', 'function', 'const'],
+        'sort_algorithm' => 'alpha',
+    ])
+    ->withConfiguredRule(GlobalNamespaceImportFixer::class, [
+        'import_constants' => true,
+        'import_classes' => null,
+        'import_functions' => true,
+    ])
+    ->withSkip([
         NotOperatorWithSuccessorSpaceFixer::class,
         PhpdocLineSpanFixer::class,
     ]);
-};
