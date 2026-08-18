@@ -1,6 +1,6 @@
 # PSR-7 Serializer 🏃‍♀️
 
-[![Package version](http://img.shields.io/packagist/v/hakone/psr7-serializer.svg?style=flat)](https://packagist.org/packages/hakone/psr7-serializer)
+[![Package version](https://img.shields.io/packagist/v/hakone/psr7-serializer.svg?style=flat)](https://packagist.org/packages/hakone/psr7-serializer)
 [![Build Status](https://github.com/hakonephp/psr7-serializer/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/hakonephp/psr7-serializer/actions)
 [![Downloads this Month](https://img.shields.io/packagist/dm/hakone/psr7-serializer.svg)](https://packagist.org/packages/hakone/psr7-serializer)
 
