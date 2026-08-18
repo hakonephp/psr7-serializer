@@ -26,7 +26,8 @@ class SerializableStreamTest extends TestCase
         $stream = Psr17FactoryDiscovery::findStreamFactory()->createStream('Foobar');
 
         $streamFactory = $this->prophesize(StreamFactoryInterface::class);
-        $streamFactory->createStream('Foobar')->willReturn($stream);
+        $streamFactory->createStream('Foobar')
+            ->willReturn($stream);
 
         $this->assertEquals('Foobar', (string)$subject->toStream($streamFactory->reveal()));
     }

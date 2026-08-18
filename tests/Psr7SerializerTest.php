@@ -10,7 +10,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-
 use function base64_decode;
 use function fopen;
 use function serialize;
@@ -91,7 +90,8 @@ class Psr7SerializerTest extends TestCase
         ];
 
         yield [
-            $responseFactory->createResponse()->withHeader('Content-Type', 'application/json'),
+            $responseFactory->createResponse()
+                ->withHeader('Content-Type', 'application/json'),
             [
                 'version' => '1.1',
                 'headers' => [
@@ -104,9 +104,10 @@ class Psr7SerializerTest extends TestCase
         ];
 
         yield [
-            $responseFactory->createResponse(404)->withBody(
-                $streamFactory->createStream('<html></html>')
-            ),
+            $responseFactory->createResponse(404)
+                ->withBody(
+                    $streamFactory->createStream('<html></html>')
+                ),
             [
                 'version' => '1.1',
                 'headers' => [],

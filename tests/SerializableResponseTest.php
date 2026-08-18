@@ -42,11 +42,13 @@ class SerializableResponseTest extends TestCase
 
         $stream = Psr17FactoryDiscovery::findStreamFactory()->createStream('Foobar');
         $streamFactory = $this->prophesize(StreamFactoryInterface::class);
-        $streamFactory->createStream('Foobar')->willReturn($stream);
+        $streamFactory->createStream('Foobar')
+            ->willReturn($stream);
 
         $response = Psr17FactoryDiscovery::findResponseFactory()->createResponse(111, 'Incomprehensible');
         $responseFactory = $this->prophesize(ResponseFactoryInterface::class);
-        $responseFactory->createResponse(111, 'Incomprehensible')->willReturn($response);
+        $responseFactory->createResponse(111, 'Incomprehensible')
+            ->willReturn($response);
         $expected_response = $response
             ->withProtocolVersion('9.9')
             ->withHeader('Foo', ['Bar', 'Bar'])
