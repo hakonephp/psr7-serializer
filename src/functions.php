@@ -18,8 +18,8 @@ use function unserialize;
 
 function unserializeResponse(
     string $data,
-    ResponseFactoryInterface $responseFactory = null,
-    StreamFactoryInterface $streamFactory = null
+    ?ResponseFactoryInterface $responseFactory = null,
+    ?StreamFactoryInterface $streamFactory = null
 ): ResponseInterface {
     $response = unserialize($data);
 
